@@ -1,28 +1,3 @@
-"""
- 功能：
-  
-展示面板：
-1.添加学生的信息
-2.删除学生的信息
-3.修改学生的信息
-4.查询学生的信息
-5.遍历所有学生的信息
-6.保存并退出系统
-          
-需求:
-1.可以保存用户数据，下次运行程序时能读取上次保存的数据
-2.具有添加、查询、删除用户的功能
-                  
-优化：
-1.规范用户行为，用户输入错误不能直接报错，而是返回相关提示。
-2.可以增加项目，比如班主任，成绩等。
-3.可以实现排序功能
-4.删除一个用户后，索引值自动-1，保证id的连续
-5.实现批量增加或者删除？
-
-"""
-
-
 import csv
 from pathlib import Path
 import pickle
@@ -63,15 +38,14 @@ def save(x):
     with open(str(p_save), 'wb+') as f:
         pickle.dump(x, f)
 
-        
+
 def pick_load():
     with open(str(p_save), 'rb') as f:
         StudenDetails_Tmp = pickle.load(f)
         return StudenDetails_Tmp
 
-        
 
-def generate_counter(lst=[0]):  ##闭包实现自增功能==> 学生学号
+def generate_counter(lst=[0]):  # 闭包实现自增功能==> 学生学号
     CNT = lst
 
     def add_one():
@@ -125,13 +99,11 @@ def StudentManagement():  # 主体函数
 
             StudenDetails_Tmp.extend([[StudentID, name, age]])
 
-
         elif option == 2:  # 输入学生的id就可以删除
             DelID = int(input("请输入需要删除的学生id："))
             del_list = show_student_details(StudenDetails_Tmp, DelID)
             StudenDetails_Tmp.remove(del_list)
             print("删除用户成功：", del_list)
-         
 
         elif option == 3:  # 输入学生的id，然后弹出需要修改的选选项，输入值进行修改
             ChgDetil = int(input("请输入需要修改的学生id："))
@@ -149,24 +121,24 @@ def StudentManagement():  # 主体函数
             tb4 = PrettyTable()
             tb4.field_names = ['StudentID', 'name', 'age']
             tb4.add_row(show_list)
-        
+
             print(tb4)
 
         elif option == 5:  # 查询所有的学生信息
             tb5 = PrettyTable()
-            for idx,v in enumerate(StudenDetails_Tmp):
+            for idx, v in enumerate(StudenDetails_Tmp):
                 if idx == 0:
                     tb5.field_names = v
                 if idx > 0:
                     tb5.add_row(v)
-     
+
             print(tb5)
-        
+
         elif option == 6:
-            
-            save_csv(StudenDetails_Tmp)  #保存为csv格式便于下载
-            save(StudenDetails_Tmp)   #数据序列化保存
-            print('保存成功：',StudenDetails_Tmp)
+
+            save_csv(StudenDetails_Tmp)  # 保存为csv格式便于下载
+            save(StudenDetails_Tmp)  # 数据序列化保存
+            print('保存成功：', StudenDetails_Tmp)
             break
 
         else:
@@ -185,4 +157,3 @@ if __name__ == "__main__":
     StudentManagement()
     pick_load()
     # print(StudenDetails_Tmp)
-
